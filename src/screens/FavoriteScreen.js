@@ -22,7 +22,7 @@ export default function FavoriteScreen() {
   const favoriteRecipesList = favoriteRecipes?.favoriterecipes || [];
   console.log(favoriteRecipes.favoriterecipes);
   console.log('favoriteRecipesList',favoriteRecipesList);
-  
+  console.log(favoriteRecipes[0])
   
 
   if (favoriteRecipesList.length === 0) {
@@ -73,7 +73,28 @@ export default function FavoriteScreen() {
       >
         <Text style={{ color: "#fff" }}>Go back</Text>
       </TouchableOpacity>
-    
+        <FlatList 
+            data={favoriteRecipesList}
+            contentContainerStyle={styles.listContentContainer}
+            keyExtractor={(item) => item.item.idFood}
+            renderItem={({item}) => (
+                <TouchableOpacity 
+                    style={styles.cardContainer} 
+                    onPress={() => navigation.navigate("RecipeDetail", item)}
+                >
+                    <Image 
+                        source={{uri:item.item.recipeImage}}
+                        style={styles.recipeImage}
+                    />
+                    <Text style={styles.recipeTitle}>
+                        {item.item.recipeName.length > 20 
+                            ? `${item.item.recipeName.slice(0, 20)}...` 
+                            : item.item.recipeName
+                        }
+                    </Text>
+                </TouchableOpacity>
+            )}
+        />
     </>
   );
 }
