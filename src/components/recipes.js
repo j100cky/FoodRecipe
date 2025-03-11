@@ -7,24 +7,47 @@ export default function Recipe({ categories, foods }) {
   const navigation = useNavigation();
 
   const renderItem = ({ item, index }) => (
-<ArticleCard item={item} index={index} navigation={navigation} />
+    <ArticleCard 
+        item={item} 
+        index={index} 
+        navigation={navigation} 
+    />
   );
 
   return (
     <View style={styles.container}>
       <View testID="recipesDisplay">
-            
+            <FlatList 
+                data={foods}
+                keyExtractor={(item) => item.idFood}
+                renderItem={renderItem}
+            />
       </View>
     </View>
   );
 }
 
 const ArticleCard = ({ item, index, navigation }) => {
-  return (
+    console.log(1);
+    return (
     <View
-      style={[styles.cardContainer, { paddingLeft: 20, paddingRight: 15}]} testID="articleDisplay"
+      style={[styles.cardContainer, { paddingLeft: 20, paddingRight: 15}]} 
+      testID="articleDisplay"
     >
-   
+        <TouchableOpacity
+            onPress={() => navigation.navigate("RecipeDetail", {item})}
+        >
+            <Image 
+                source={{ uri:item. recipeImage }}
+                style={[styles.articleImage, {height: index%3===0 ? hp(25) : hp(35)}]}
+            />
+            <Text style={styles.articleText}>
+                {item.recipeName}
+            </Text>
+            <Text style={styles.articleDescription}>
+                {item.cookingDescription}
+            </Text>
+        </TouchableOpacity>
     </View>
   );
 };
